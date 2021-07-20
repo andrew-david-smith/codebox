@@ -14,7 +14,7 @@ const { DEFAULT_THEMES, COMMON_LANGUAGES } = require('./constants');
 //#endregion
 
 class CodeBox {
-  constructor({ data, api, config }){
+  constructor({ data, api, config, readOnly }){
     this.api = api;
     this.config = {
       themeName: config.themeName && typeof config.themeName === 'string' ? config.themeName : '',
@@ -37,6 +37,7 @@ class CodeBox {
     this._injectHighlightJSCSSElement();
 
     this.api.listeners.on(window, 'click', this._closeAllLanguageSelects, true);
+    this.readOnly = readOnly;
   }
 
   static get sanitize(){
@@ -54,6 +55,13 @@ class CodeBox {
     };
   }
 
+  /**
+   * Allows Readonly support
+   */
+  static get isReadOnlySupported() {
+    return true;
+  }
+
   static get displayInToolbox() {
     return true;
   }
@@ -68,7 +76,7 @@ class CodeBox {
 
     codeAreaHolder.setAttribute('class', 'codeBoxHolder');
     this.codeArea.setAttribute('class', `codeBoxTextArea ${ this.config.useDefaultTheme } ${ this.data.language }`);
-    this.codeArea.setAttribute('contenteditable', true);
+    this.codeArea.setAttribute('contenteditable', !this.readOnly);
     this.codeArea.innerHTML = this.data.code;
     this.api.listeners.on(this.codeArea, 'blur', event => this._highlightCodeArea(event), false);
     this.api.listeners.on(this.codeArea, 'paste', event => this._handleCodeAreaPaste(event), false);
