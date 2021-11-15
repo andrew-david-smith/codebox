@@ -165,7 +165,8 @@ class CodeBox {
 
   _injectHighlightJSScriptElement(){
     const highlightJSScriptElement = document.querySelector(`#${ this.highlightScriptID }`);
-    const highlightJSScriptURL = 'https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/highlight.min.js';
+    const highlightJSScriptURL = 'https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.3.1/build/highlight.min.js';
+
     if (!highlightJSScriptElement) {
       const script = document.createElement('script');
       const head = document.querySelector('head');
@@ -193,9 +194,9 @@ class CodeBox {
   }
 
   _getThemeURLFromConfig(){
-    let themeURL = `https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/styles/atom-one-${ this.config.useDefaultTheme }.min.css`;
+    let themeURL = `https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.3.1/build/styles/atom-one-${ this.config.useDefaultTheme }.min.css`;
 
-    if (this.config.themeName) themeURL = `https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/styles/${ this.config.themeName }.min.css`;
+    if (this.config.themeName) themeURL = `https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.3.1/build/styles/${ this.config.themeName }.min.css`;
     if (this.config.themeURL) themeURL = this.config.themeURL;
 
     return themeURL;
