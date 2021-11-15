@@ -80,6 +80,7 @@ class CodeBox {
     this.codeArea.innerHTML = this.data.code;
     this.api.listeners.on(this.codeArea, 'blur', event => this._highlightCodeArea(event), false);
     this.api.listeners.on(this.codeArea, 'paste', event => this._handleCodeAreaPaste(event), false);
+    this.api.listeners.on(this.codeArea, 'keyup', event => this._handleCodeAreaEnter(event), false);
 
     codeAreaHolder.appendChild(this.codeArea);
     codeAreaHolder.appendChild(languageSelect);
@@ -138,7 +139,12 @@ class CodeBox {
   }
 
   _highlightCodeArea(event){
-    hljs.highlightElement(this.codeArea);
+    for (let i = 0; i < this.codeArea.children.length; i++) {
+      var el = this.codeArea.children[i];
+      if (!!el.textContent) {
+        hljs.highlightElement(this.codeArea.children[i]);
+      }
+    }
   }
 
   _handleCodeAreaPaste(event){
@@ -149,13 +155,31 @@ class CodeBox {
     event.target.nextSibling.classList.toggle('codeBoxShow');
   }
 
+  _handleCodeAreaEnter(event){
+    if (event.keyCode === 13) {
+      for (let i = 0; i < this.codeArea.children.length; i++) {
+        var el = this.codeArea.children[i];
+        el.setAttribute('class', `language-${ this.data.language }`);
+        if (!!el.textContent) {
+          hljs.highlightElement(this.codeArea.children[i]);
+        }
+      }
+    }
+  }
+
   _handleSelectItemClick(event, language){
     event.target.parentNode.parentNode.querySelector('.codeBoxSelectInput').value = language[1];
     event.target.parentNode.classList.remove('codeBoxShow');
     this.codeArea.removeAttribute('class');
     this.data.language = language[0];
     this.codeArea.setAttribute('class', `codeBoxTextArea ${ this.config.useDefaultTheme } ${ this.data.language }`);
-    hljs.highlightElement(this.codeArea);
+    for (let i = 0; i < this.codeArea.children.length; i++) {
+      var el = this.codeArea.children[i];
+      el.setAttribute('class', `language-${ this.data.language }`);
+      if (!!el.textContent) {
+        hljs.highlightElement(this.codeArea.children[i]);
+      }
+    }
   }
 
   _closeAllLanguageSelects(){
