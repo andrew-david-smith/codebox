@@ -138,7 +138,7 @@ class CodeBox {
   }
 
   _highlightCodeArea(event){
-    hljs.highlightBlock(this.codeArea);
+    hljs.highlightElement(this.codeArea);
   }
 
   _handleCodeAreaPaste(event){
@@ -155,7 +155,7 @@ class CodeBox {
     this.codeArea.removeAttribute('class');
     this.data.language = language[0];
     this.codeArea.setAttribute('class', `codeBoxTextArea ${ this.config.useDefaultTheme } ${ this.data.language }`);
-    hljs.highlightBlock(this.codeArea);
+    hljs.highlightElement(this.codeArea);
   }
 
   _closeAllLanguageSelects(){
