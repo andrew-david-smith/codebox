@@ -1,6 +1,6 @@
 {
   "name": "@bomdi/codebox",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "license": "ISC",
   "description": "Code syntax highlighting tool for Editor.js",
   "keywords": [
