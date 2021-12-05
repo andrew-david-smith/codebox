@@ -149,6 +149,29 @@ class CodeBox {
 
   _handleCodeAreaPaste(event){
     event.stopPropagation();
+    var that = this;
+    setTimeout(function() {
+      var nodes = that.codeArea.childNodes;
+      for (let i = 0; i < nodes.length; i++) {
+        var node = nodes[i];
+        if (node.nodeType === 3) {
+          const div = document.createElement('div');
+          node.after(div);
+          div.appendChild(node);
+          hljs.highlightElement(div);
+        }
+      }
+      for (let i = 0; i < nodes.length; i++) {
+        var node = nodes[i];
+        if (node.nodeType === 1 && node.tagName === "BR") {
+	  var nextNode = nodes[i+1];
+          if (!!nextNode && nextNode.nodeType === 1 && nextNode.tagName === "BR") {
+	  } else {
+	    node.remove();
+	  }
+        }
+      }
+    }, 200);
   }
 
   _handleSelectInputClick(event){
